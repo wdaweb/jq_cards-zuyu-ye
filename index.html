@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- https://www.twicon.page/index.html Free icons of Taiwan-->
+    <title>Document</title>
+    <style>
+        /* #a {
+            width: 372px;
+            height: 379px;
+            margin: auto;
+        } */
+        body {
+            background-color: rgb(255, 244, 227);
+        }
+
+        #left {
+            float: left;
+            margin-left: 410px;
+        }
+
+        #right {
+            float: right;
+            margin-right: 250px;
+            margin-top: 50px;
+        }
+
+        #say {
+            display: block;
+            position: absolute;
+            color: rgb(34, 4, 0);
+            top: 13%;
+            left: 50%
+        }
+
+        /* --------------------------------------------------按鈕們-------------------------------------------- */
+        .btns {
+            width: 56px;
+            height: 56px;
+            background: rgb(255, 255, 255);
+            border: 4px solid #1181eb;
+            border-radius: 50%;
+            position: absolute;
+            font-weight: bold;
+            font-size: 25px;
+            display: block;
+        }
+
+        .btns:hover {
+            width: 56px;
+            height: 56px;
+            background: rgb(255, 134, 5);
+            border: 4px solid #fff317;
+            border-radius: 50%;
+            color: antiquewhite;
+            font-weight: bold;
+            font-size: 35px;
+        }
+
+        #btn-n {
+            top: 12.5%;
+            left: 39.3%
+        }
+
+        #btn-w {
+            top: 26%;
+            left: 28.7%
+        }
+
+        #btn-e {
+            top: 34%;
+            left: 36.6%
+        }
+
+        #btn-s {
+            top: 52%;
+            left: 31%
+        }
+    </style>
+</head>
+
+<body>
+    <div id="a">
+        <div id="left">
+            <img src="./images/taiwan.png" height="650" alt="">
+            <input type="button" value="食" id="btn-n" class="btns">
+            <input type="button" value="遊" id="btn-e" class="btns">
+            <input type="button" value="行" id="btn-s" class="btns">
+            <input type="button" value="住" id="btn-w" class="btns">
+        </div>
+        <div id="right">
+            <iframe id="iframe" height="650" width="650" frameborder="no" border="0" marginwidth="0" marginheight="0"
+                scrolling="no" allowtransparency="yes"></iframe>
+        </div>
+        <div id="say">
+            <h1>台灣icon記憶翻牌趣!</h1>
+
+            <h3>點選左側，食 、住、行、遊，任一關卡開始遊戲<br>目前僅開放食 、行</h3>
+        </div>
+    </div>
+    <script src="./jquery-3.6.0.min.js"></script>
+    <script>
+        $('#btn-n').click(function () {
+            $('#iframe').attr('src', './local/食.html')
+            $("#say").hide();
+
+        })
+        $('#btn-s').click(function () {
+            $('#iframe').attr('src', './local/行.html')
+            $("#say").hide();
+        })
+    </script>
+</body>
+
+</html>

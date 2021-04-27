@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #game {
+            width: 300px;
+        }
+
+        .card {
+            width: 80px;
+            height: 120px;
+            position: relative;
+            /* 設定子元素在 3D 空間內 */
+            transform-style: preserve-3d;
+            transition: transform .5s;
+            float: left;
+            margin: 10px;
+        }
+
+        .card-back {
+            width: 100%;
+            height: 100%;
+            background-image: url(../images/f.jpg);
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: contain;
+            position: absolute;
+            /* 翻過來後隱藏背面 */
+            backface-visibility: hidden;
+            -web-backface-visibility: hidden;
+            background-image: url(../images/f.jpg);
+        }
+
+        .card-front {
+            width: 100%;
+            height: 100%;
+            background-image: url(../images/c1.jpg);
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: contain;
+            position: absolute;
+            transform: rotateY(180deg);
+
+        }
+
+        .card-open {
+            transform: rotateY(180deg);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="game">
+    </div>
+    <script src="../jquery-3.6.0.min.js"></script>
+    <!-- 加動畫 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script>
+        // 產生 16 張卡片
+        for (let i = 0; i < 10; i++) {
+            $('#game').append(`
+        <div class="card">
+          <div class="card-back"></div>
+          <div class="card-front"></div>
+        </div>
+      `)
+        }
+        // 決定花色並打散
+        for (let i = 0; i < 10; i++) {
+            let number = i % (10 / 2) + 1
+            // 決定數字
+            $('.card').eq(i).find('.card-front').css('background-image', `url(../images/c${number}.jpg)`)
+            $('.card').eq(i).attr('data-card', number)
+            // 隨機打散
+            let target = Math.floor(Math.random() * 10)
+            $('.card').eq(target).insertAfter($('.card').eq(i))
+        }
+
+        $('#game').on('click', '.card', function () {
+            //最多點兩張牌
+            if ($('.card-open').length < 2 && !$(this).hasClass('card-open')) {
+                $(this).addClass('card-open')
+            }
+
+            //如果翻開兩張了
+            if ($('.card-open').length == 2) {
+                //如果兩張的數字一樣
+                if ($('.card-open').eq(0).attr('data-card') == $('.card-open').eq(1).attr('data-card')) {
+                    //淡出 使用card-clear標示以解決
+                    $('.card-open').fadeTo(1000, 0).addClass('card-clear')
+                }
+                //不管一不一樣都翻回來
+                setTimeout(() => {
+                    $('.card-open').removeClass('card-open')
+                }, 1000);
+            }
+            //如果全部翻完 跳出框框動畫
+            if ($('.card-clear').length == 10) {
+                Swal.mixin({
+                    input: 'text',
+                    confirmButtonText: 'Next &rarr;',
+                    showCancelButton: true,
+                    progressSteps: ['1', '2', '3', '4', '5']
+                }).queue([
+                    {
+                        title: 'Icon聯想到什麼?',
+                        imageUrl: '../images/c1.jpg',
+                        imageWidth: 80,
+                        imageHeight: 120,
+                        text: '提示:台灣用這飲料征服世界!'
+                    },
+                    {
+                        title: 'Icon聯想到什麼?',
+                        imageUrl: '../images/c2.jpg',
+                        imageWidth: 80,
+                        imageHeight: 120,
+                        text: '提示:呼乾啦~~'
+                    },
+                    {
+                        title: 'Icon聯想到什麼?',
+                        imageUrl: '../images/c3.jpg',
+                        imageWidth: 80,
+                        imageHeight: 120,
+                        text: '提示:國民飲料'
+                    },
+                    {
+                        title: 'Icon聯想到什麼?',
+                        imageUrl: '../images/c4.jpg',
+                        imageWidth: 80,
+                        imageHeight: 120,
+                        text: '提示:泡茶會使用的器皿'
+                    },
+                    {
+                        title: 'Icon聯想到什麼?',
+                        imageUrl: '../images/c5.jpg',
+                        imageWidth: 80,
+                        imageHeight: 120,
+
+                    },
+                ]).then((result) => {
+                    if (result.value) {
+                        const answers = JSON.stringify(result.value)
+                        Swal.fire({
+                            title: 'Icon意象為:',
+                            html: `珍珠奶茶、台灣啤酒、蘋果西打、茶具、酒壇`,
+                            confirmButtonText: '左側挑選別的關卡吧!'
+                        })
+                    }
+                })
+            }
+        })
+
+    </script>
+</body>
+
+</html>
